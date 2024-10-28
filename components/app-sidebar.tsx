@@ -1,10 +1,18 @@
 "use client";
 
 import * as React from "react";
-import { Home, PieChart, CreditCard, Settings } from "lucide-react";
+import {
+  LayoutDashboard,
+  CreditCard,
+  Receipt,
+  RefreshCcw,
+  TrendingUp,
+  FileText,
+  Target,
+} from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavUser } from "@/components/nav-user";
+import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   Sidebar,
   SidebarContent,
@@ -15,31 +23,46 @@ import {
 
 const data = {
   user: {
-    name: "John Doe",
+    name: "Jone Doe",
     email: "john@example.com",
-    avatar: "/avatars/john-doe.jpg",
+    avatar: "/placeholder-user.jpg",
   },
   navMain: [
     {
       title: "Dashboard",
       url: "/dashboard",
-      icon: Home,
+      icon: LayoutDashboard,
       isActive: true,
+    },
+    {
+      title: "Accounts",
+      url: "/accounts",
+      icon: CreditCard,
     },
     {
       title: "Transactions",
       url: "/transactions",
-      icon: CreditCard,
+      icon: Receipt,
     },
     {
-      title: "Analytics",
-      url: "/analytics",
-      icon: PieChart,
+      title: "Recurring",
+      url: "/recurring",
+      icon: RefreshCcw,
     },
     {
-      title: "Settings",
-      url: "/settings",
-      icon: Settings,
+      title: "Investments",
+      url: "/investments",
+      icon: TrendingUp,
+    },
+    {
+      title: "Reports",
+      url: "/reports",
+      icon: FileText,
+    },
+    {
+      title: "Goals",
+      url: "/goals",
+      icon: Target,
     },
   ],
 };
@@ -47,14 +70,40 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <h1 className="text-xl font-bold">FinanceApp</h1>
+      <SidebarHeader className="flex items-center justify-center p-4">
+        <TrendingUp className="h-6 w-6 text-primary" />
+        <span className="ml-2 text-2xl font-bold text-primary font-[family-name:var(--font-geist-sans)]">
+          FinanceGuard
+        </span>
       </SidebarHeader>
-      <SidebarContent>
-        <NavMain items={data.navMain} />
+      <SidebarContent className="flex flex-col">
+        {data.navMain.map((item, index) => (
+          <Button
+            key={index}
+            variant={item.isActive ? "secondary" : "ghost"}
+            className="w-full justify-start"
+            asChild
+          >
+            <a href={item.url}>
+              <item.icon className="mr-2 h-4 w-4" />
+              <span>{item.title}</span>
+            </a>
+          </Button>
+        ))}
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
+      <SidebarFooter className="p-4">
+        <div className="flex items-center gap-2">
+          <Avatar>
+            <AvatarImage src={data.user.avatar} alt={data.user.name} />
+            <AvatarFallback>{data.user.name.charAt(0)}</AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col">
+            <span className="text-sm font-medium">{data.user.name}</span>
+            <span className="text-xs text-muted-foreground">
+              {data.user.email}
+            </span>
+          </div>
+        </div>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
