@@ -45,6 +45,11 @@ const data = {
       icon: Receipt,
     },
     {
+      title: "Expenses",
+      url: "/expenses",
+      icon: Receipt,
+    },
+    {
       title: "Recurring",
       url: "/recurring",
       icon: RefreshCcw,
